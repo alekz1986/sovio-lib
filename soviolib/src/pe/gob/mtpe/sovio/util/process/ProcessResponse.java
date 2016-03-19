@@ -11,7 +11,7 @@ public class ProcessResponse {
 	
 	private int estado;
 	private int tipoMensaje;
-	private String mensaje;
+	private String[] mensaje;
 	private Exception ex;
 	private Map<String, Object> resultados;
 	
@@ -28,18 +28,19 @@ public class ProcessResponse {
 	public void setEstado(int estado) {
 		this.estado = estado;
 	}
-	public String getMensaje() {
-		return mensaje;
-	}
 	public int getTipoMensaje() {
 		return tipoMensaje;
 	}
 	public void setTipoMensaje(int tipoMensaje) {
 		this.tipoMensaje = tipoMensaje;
 	}
-	protected void setMensaje(String mensaje) {
+	public String[] getMensaje() {
+		return mensaje;
+	}
+	public void setMensaje(String[] mensaje) {
 		this.mensaje = mensaje;
 	}
+
 	public Exception getEx() {
 		return ex;
 	}
