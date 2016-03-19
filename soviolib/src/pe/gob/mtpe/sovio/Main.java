@@ -15,6 +15,8 @@ public class Main {
 		
 		//ingreso.ingresar("JROJASV", "clave");
 		ingreso.nuevoUsuario();
+		
+		System.out.println("test");
 
 	}
 	
