@@ -14,7 +14,7 @@ public class SITBPersonaExt {
 
 	@Id
 	@Column(name="V_CODPEREXT") 
-	private String codperExt;
+	private String codPerExt;
 	
 	@Column(name="V_CODTDOCIDE") private String codTDocIde;
 	@Column(name="V_DESAPEPAT") private String desApePat;
@@ -39,11 +39,12 @@ public class SITBPersonaExt {
 	@Column(name="D_FECMOD") private Date fecMod;
 
 
-	public String getCodperExt() {
-		return codperExt;
+	
+	public String getCodPerExt() {
+		return codPerExt;
 	}
-	public void setCodperExt(String codperExt) {
-		this.codperExt = codperExt;
+	public void setCodPerExt(String codPerExt) {
+		this.codPerExt = codPerExt;
 	}
 	public String getCodTDocIde() {
 		return codTDocIde;

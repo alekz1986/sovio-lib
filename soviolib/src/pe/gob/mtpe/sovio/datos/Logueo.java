@@ -4,34 +4,29 @@ package pe.gob.mtpe.sovio.datos;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Id;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
+import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import pe.gob.mtpe.sovio.bean.simintra1.SITBUsuario;
-
+import pe.gob.mtpe.sovio.util.log.InjectLogger;
 
 
 public class Logueo {
 	
 	
-	//@PersistenceContext(name="org.hibernate.simintra1.jpa")
+	@InjectLogger
+	private Logger logger;
+
 	@PersistenceContext
 	private EntityManager entityManager;
-
+	
 	
 	//@Transactional(propagation = Propagation.REQUIRED)
-	@Transactional
-	public SITBUsuario obtenerUsuario(String codusu) {
+	public SITBUsuario obtenerUsuarioAdministrador(String codusu) {
 		SITBUsuario usuario = null;
 		List lista = (List) entityManager.createQuery(
 				"FROM SITB_USUARIO usu "
@@ -61,7 +56,26 @@ public class Logueo {
 
 	
 
-	public SITBUsuario obtenerUsuario() {
+	public SITBUsuario obtenerUsuarioExterno(String codUsu, String passUsu) {
+		Object obj = null;
+		try {
+			obj = entityManager.createQuery(
+					"FROM SITB_USUARIO usu "
+					+ "	INNER JOIN SITB_PERSONAEXT ext ON ext.codPerExt=usu.personaExt "
+					+ "WHERE usu.codUsu=:codUsu AND usu.passUsu=:passUsu")
+				.setParameter("codUsu", codUsu)
+				.setParameter("passUsu", passUsu)
+				.getSingleResult();
+		} catch (NoResultException nrex) {
+			logger.debug("Obtener Usuario Externo no genera resultados para el usuario: "
+					+ codUsu);
+		}
+		return (obj != null) ? (SITBUsuario) obj : null;
+	} 
+	
+	
+
+	public SITBUsuario insertarUsuario() {
 		SITBUsuario usuario = null;
 		List lista = (List) entityManager.createQuery(
 				"FROM SITB_USUARIO usu "

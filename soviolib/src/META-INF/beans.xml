@@ -20,6 +20,7 @@
 	<!--<jee:jndi-lookup id="myEmf" jndi-name="persistence/org.hibernate.simintra1.jpa"/>-->
 	
 	<context:component-scan base-package="pe.gob.mtpe.sovio.acceso"/>
+	<context:component-scan base-package="pe.gob.mtpe.sovio.util.log"/>
 	
 
 	<context:annotation-config />
@@ -49,6 +50,11 @@
 	
 	<!-- <bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
 	 -->
+
+	<bean id="mylog" class="org.springframework.beans.factory.config.CommonsLogFactoryBean">
+		<property name="logName" value="mylog" />
+	</bean>
+
 	
 	 
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />

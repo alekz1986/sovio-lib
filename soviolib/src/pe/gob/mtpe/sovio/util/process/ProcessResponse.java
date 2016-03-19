@@ -1,26 +1,34 @@
 package pe.gob.mtpe.sovio.util.process;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
 
-public class ProcessResponse {
+public class ProcessResponse /* implements InvocationHandler */ {
 
 	
 	private int estado;
 	private int tipoMensaje;
-	private String[] mensaje;
+	private List<String> mensaje;
 	private Exception ex;
 	private Map<String, Object> resultados;
 	
 	
+	
 	public ProcessResponse() {
-		tipoMensaje = MessageType.INFORMATION_MESSAGE;
-		estado = ProcessState.OK;
+		reiniciar();
 	}
 	
+	protected void reiniciar() {
+		mensaje = new ArrayList<String>();
+		tipoMensaje = MessageType.INFORMATION_MESSAGE;
+		estado = ProcessState.ERROR;
+	}
 	
 	public int getEstado() {
 		return estado;
@@ -34,13 +42,12 @@ public class ProcessResponse {
 	public void setTipoMensaje(int tipoMensaje) {
 		this.tipoMensaje = tipoMensaje;
 	}
-	public String[] getMensaje() {
+	public List<String> getMensaje() {
 		return mensaje;
 	}
-	public void setMensaje(String[] mensaje) {
+	public void setMensaje(List<String> mensaje) {
 		this.mensaje = mensaje;
 	}
-
 	public Exception getEx() {
 		return ex;
 	}
@@ -49,6 +56,18 @@ public class ProcessResponse {
 	}
 	public void addResultado(String key, Object value) {
 		resultados.put(key, value);
-	}	
+	}
+	public void setMensaje(String m) {
+		
+	}
+
+	/*
+	@Override
+	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+		System.out.println("invoke");
+		// TODO Auto-generated method stub
+		return null;
+	}
+	*/
 	
 }
