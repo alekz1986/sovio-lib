@@ -15,7 +15,7 @@ public class Main {
 		ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/beans.xml");
 		Ingreso ingreso = context.getBean(Ingreso.class);
 		
-		ingreso.ingresar("JROJASV", "123456");
+		ingreso.ingresar("40411112", "123456");
 		//ingreso.nuevoUsuario();
 		
 		System.out.println("test");

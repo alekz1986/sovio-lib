@@ -18,6 +18,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.type.TrueFalseType;
 
 import pe.gob.mtpe.sovio.bean.tramite.PRTBCPersonal;
 

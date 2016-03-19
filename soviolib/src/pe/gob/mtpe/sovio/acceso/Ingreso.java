@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import antlr.StringUtils;
 import pe.gob.mtpe.sovio.bean.simintra1.SITBUsuario;
+import pe.gob.mtpe.sovio.bean.tramite.PRTBCPersonal;
 import pe.gob.mtpe.sovio.datos.Logueo;
 import pe.gob.mtpe.sovio.util.StringLib;
 import pe.gob.mtpe.sovio.util.log.InjectLogger;
@@ -43,15 +43,21 @@ public class Ingreso extends ProcessResponse {
 		//mensaje
 		try {
 			passUsu = !esEncriptado ? StringLib.encodeLabel(passUsu) : passUsu;
+			
+			System.out.println(passUsu);
 			usuario = logueo.obtenerUsuarioExterno(codUsu, passUsu);
 			//logueo.obtenerUsuarioAdministrador("AS");
 			
 			if(usuario!=null) {
 				System.out.println("Usuario encontrado");
 				System.out.println(usuario.getCodUsu());
-				System.out.println(usuario.getPersonal().getDesApePat());
-				System.out.println(usuario.getPersonal().getDesApeMat());
-				System.out.println(usuario.getPersonal().getDesNombres());
+				
+				PRTBCPersonal personal = usuario.getPersonal();
+				if(personal!=null) {
+					System.out.println(usuario.getPersonal().getDesApePat());
+					System.out.println(usuario.getPersonal().getDesApeMat());
+					System.out.println(usuario.getPersonal().getDesNombres());
+				}
 			} else {
 				System.out.println("No se encontro el usuario");
 			}

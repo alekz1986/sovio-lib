@@ -21,8 +21,6 @@ import org.hibernate.transform.Transformers;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.fasterxml.classmate.AnnotationConfiguration;
-
 import pe.gob.mtpe.sovio.acceso.Ingreso;
 import pe.gob.mtpe.sovio.bean.simintra1.SITBUsuario;
 import pe.gob.mtpe.sovio.bean.tramite.PRTBCPersonal;

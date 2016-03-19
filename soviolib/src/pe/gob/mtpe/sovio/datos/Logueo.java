@@ -56,10 +56,12 @@ public class Logueo {
 
 	
 
+	/*
+	@Transactional
 	public SITBUsuario obtenerUsuarioExterno(String codUsu, String passUsu) {
-		Object obj = null;
+		Object[] obj = null;
 		try {
-			obj = entityManager.createQuery(
+			obj = (Object[])entityManager.createQuery(
 					"FROM SITB_USUARIO usu "
 					+ "	INNER JOIN SITB_PERSONAEXT ext ON ext.codPerExt=usu.personaExt "
 					+ "WHERE usu.codUsu=:codUsu AND usu.passUsu=:passUsu")
@@ -70,8 +72,29 @@ public class Logueo {
 			logger.debug("Obtener Usuario Externo no genera resultados para el usuario: "
 					+ codUsu);
 		}
-		return (obj != null) ? (SITBUsuario) obj : null;
+		return (obj != null) ? (SITBUsuario) obj[0] : null;
 	} 
+	/*-*/
+	
+	
+	@Transactional
+	public SITBUsuario obtenerUsuarioExterno(String codUsu, String passUsu) {
+		Object[] obj = null;
+		try {
+			obj = (Object[]) entityManager.createQuery(
+					"FROM SITB_USUARIO usu "
+					+ "JOIN usu.personaExt pex "
+					+ "WHERE usu.codUsu=:codUsu AND usu.passUsu=:passUsu")
+				.setParameter("codUsu", codUsu)
+				.setParameter("passUsu", passUsu)
+				.getSingleResult();
+		} catch (NoResultException nrex) {
+			logger.debug("Obtener Usuario Externo no genera resultados para el usuario: "
+					+ codUsu);
+		}
+		return (obj != null) ? (SITBUsuario) obj[0] : null;
+	} 
+	/*-*/
 	
 	
 

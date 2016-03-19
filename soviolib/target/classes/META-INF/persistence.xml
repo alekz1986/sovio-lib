@@ -21,22 +21,25 @@
     <class>pe.gob.mtpe.sovio.bean.simintra1.SITBZonal</class>
     <class>pe.gob.mtpe.sovio.bean.tramite.TDTBCDependencia</class>
     <class>pe.gob.mtpe.sovio.bean.simintra1.pk.SITBZonalPK</class>
+
+    <class>pe.gob.mtpe.sovio.bean.simintra1.SITBPersonaExt</class>
 	
 	    
 	<properties>
+		<!--
 		<property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost:1522:SOVIO"/>
 		<property name="hibernate.connection.driver_class" value="oracle.jdbc.OracleDriver"/>
 		<property name="hibernate.connection.username" value="SIMINTRA1" />
 		<property name="hibernate.connection.password" value="123456"/>
 		<property name="hibernate.show_sql" value="true"/>
-
-		<!--
+		-->
+		
 		<property name="hibernate.connection.url" value="jdbc:oracle:thin:@172.27.1.99:1521:XE"/>
 		<property name="hibernate.connection.driver_class" value="oracle.jdbc.OracleDriver"/>
 		<property name="hibernate.connection.username" value="SIMINTRA1" />
 		<property name="hibernate.connection.password" value="SIMINTRA1"/>
 		<property name="hibernate.show_sql" value="true"/>
-		-->
+		<property name="hibernate.enable_lazy_load_no_trans" value="true" />
 		
 		
 		<!--<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>-->
