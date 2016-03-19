@@ -82,7 +82,7 @@ public class Logueo {
 		Object[] obj = null;
 		try {
 			obj = (Object[]) entityManager.createQuery(
-					"FROM SITB_USUARIO usu "
+					" FROM SITB_USUARIO usu "
 					+ "JOIN usu.personaExt pex "
 					+ "WHERE usu.codUsu=:codUsu AND usu.passUsu=:passUsu")
 				.setParameter("codUsu", codUsu)
