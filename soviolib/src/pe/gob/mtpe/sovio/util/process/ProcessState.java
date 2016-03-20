@@ -4,5 +4,6 @@ public class ProcessState {
 
 	public static final int OK = 1;
 	public static final int ERROR = 2;
+	public static final int PROCESSING = 3;
 	
 }

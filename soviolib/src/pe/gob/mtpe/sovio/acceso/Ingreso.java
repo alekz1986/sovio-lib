@@ -14,6 +14,7 @@ import pe.gob.mtpe.sovio.datos.Logueo;
 import pe.gob.mtpe.sovio.util.StringLib;
 import pe.gob.mtpe.sovio.util.log.InjectLogger;
 import pe.gob.mtpe.sovio.util.process.ProcessResponse;
+import pe.gob.mtpe.sovio.util.process.SovioProcess;
 
 @Component
 public class Ingreso extends ProcessResponse {
@@ -31,7 +32,9 @@ public class Ingreso extends ProcessResponse {
 	 * @param codUsu Codigo del usuario
 	 * @param passUsu Clave del usuario sin encriptar
 	 * @return El usuario.
+	 * @throws Exception 
 	 */
+	@SovioProcess
 	public SITBUsuario ingresar(String codUsu, String passUs) {
 		log.debug("La clave sera encriptada para su validacion correspondiente");
 		return ingresar(codUsu, passUs, false);
@@ -45,22 +48,25 @@ public class Ingreso extends ProcessResponse {
 	 * @param esEncriptado Determina si la clave es encriptada o no. Si no lo 
 	 *  es, se realizará la encriptacion durante el proceso. 
 	 * @return
+	 * @throws Exception 
 	 */
+	@SovioProcess
 	public SITBUsuario ingresar(String codUsu, String passUsu, boolean esEncriptado) {
-		SITBUsuario usuario = null;
-		//mensaje
 		try {
 			passUsu = !esEncriptado ? StringLib.encodeLabel(passUsu) : passUsu;
-			log.debug("clave encriptada: " + passUsu);
-			usuario = logueo.obtenerUsuarioExterno(codUsu, passUsu);
-			if(usuario != null) {
-				return usuario;
-			}
-			
 		} catch (Exception ex) {
-			super.setEx(ex);
-			log.error(StringLib.getStackTrace(ex));
+			log.error("Error durante la encriptacion de la contraseña");
+			setMensaje("Error durante la encriptación de la contraseña");
+			log.error(StringLib.getExceptionStackTrace(ex));
+			return null;
 		}
+		
+		log.debug("contraseña encriptada: " + passUsu);
+		SITBUsuario usuario = logueo.obtenerUsuarioExterno(codUsu, passUsu);
+		if(usuario != null) {
+			return usuario;
+		}
+		setMensaje("");
 		return null;
 	}
 

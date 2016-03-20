@@ -388,7 +388,7 @@ public final class  StringLib {
      * Metodo que devuelve el stackTrace de una exception en formato String
      * @param ex Exception del que se extraera la informacion
      */
-    public static String getStackTrace(Exception ex) {
+    public static String getExceptionStackTrace(Exception ex) {
     	StringWriter sw = new StringWriter();
     	PrintWriter pw = new PrintWriter(sw);
     	ex.printStackTrace(pw);

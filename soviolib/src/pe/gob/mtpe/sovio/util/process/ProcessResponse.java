@@ -9,8 +9,8 @@ public class ProcessResponse /* implements InvocationHandler */ {
 	
 	private int estado;
 	private int tipoMensaje;
-	private List<String> mensaje;
-	private Exception ex;
+	private List<String> mensajes;
+	private Exception exception;
 	private Map<String, Object> resultados;
 	
 	
@@ -20,9 +20,9 @@ public class ProcessResponse /* implements InvocationHandler */ {
 	}
 	
 	protected void reiniciar() {
-		mensaje = new ArrayList<String>();
+		mensajes = new ArrayList<String>();
 		tipoMensaje = MessageType.INFORMATION_MESSAGE;
-		estado = ProcessState.ERROR;
+		estado = ProcessState.PROCESSING;
 	}
 	
 	public int getEstado() {
@@ -37,32 +37,24 @@ public class ProcessResponse /* implements InvocationHandler */ {
 	public void setTipoMensaje(int tipoMensaje) {
 		this.tipoMensaje = tipoMensaje;
 	}
-	public List<String> getMensaje() {
-		return mensaje;
+	public List<String> getMensajes() {
+		return mensajes;
 	}
-	public void setMensaje(List<String> mensaje) {
-		this.mensaje = mensaje;
+	public void setMensajes(List<String> mensajes) {
+		this.mensajes = mensajes;
 	}
-	public Exception getEx() {
-		return ex;
+	public Exception getException() {
+		return exception;
 	}
-	protected void setEx(Exception ex) {
-		this.ex = ex;
+	public void setException(Exception exception) {
+		this.exception = exception;
 	}
 	public void addResultado(String key, Object value) {
 		resultados.put(key, value);
 	}
-	public void setMensaje(String m) {
-		
-	}
 
-	/*
-	@Override
-	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-		System.out.println("invoke");
-		// TODO Auto-generated method stub
-		return null;
+	public void setMensaje(String m) {
+		mensajes.add(m);
 	}
-	*/
 	
 }

@@ -6,7 +6,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import pe.gob.mtpe.sovio.acceso.Ingreso;
-import pe.gob.mtpe.sovio.util.process.ProcessFactory;
+import pe.gob.mtpe.sovio.util.process.SovioProcessFactory;
 
 public class Main {
 
@@ -14,11 +14,8 @@ public class Main {
 	public static void main(String[] args) {
 		ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/beans.xml");
 		
-		Ingreso ingreso = context.getBean(Ingreso.class);
-		//Ingreso ingreso = ProcessFactory.buildProcess(Ingreso.class);
+		Ingreso ingreso = SovioProcessFactory.get(Ingreso.class);
 		ingreso.ingresar("40411112", "123456");
-		
-		//System.out.println("test");
 		
 		((AbstractApplicationContext) context).close();
 	}
