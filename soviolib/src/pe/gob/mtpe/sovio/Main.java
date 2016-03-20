@@ -6,6 +6,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import pe.gob.mtpe.sovio.acceso.Ingreso;
+import pe.gob.mtpe.sovio.util.StringLib;
 import pe.gob.mtpe.sovio.util.process.SovioProcessFactory;
 
 public class Main {

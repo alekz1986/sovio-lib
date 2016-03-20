@@ -15,11 +15,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.type.TrueFalseType;
 
+import pe.gob.mtpe.sovio.bean.simintra1.enums.UsuarioFlgExt;
 import pe.gob.mtpe.sovio.bean.tramite.PRTBCPersonal;
 
 
@@ -58,6 +60,8 @@ public class SITBUsuario {
 	@Column(name="V_CODVALIDACION") private String codValidacion;
 	@Column(name="V_NOMBREIMAGEN") private String nombreImagen;
 	
+	
+	@Transient private UsuarioFlgExt flgEstExtEnum;
 	
 	
 
@@ -162,6 +166,12 @@ public class SITBUsuario {
 	}
 	public void setPersonal(PRTBCPersonal personal) {
 		this.personal = personal;
+	}
+	public UsuarioFlgExt getFlgEstExtEnum() {
+		return flgEstExtEnum;
+	}
+	public void setFlgEstExtEnum(UsuarioFlgExt flgEstExtEnum) {
+		this.flgEstExtEnum = flgEstExtEnum;
 	}
 	
 	

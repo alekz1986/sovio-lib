@@ -371,6 +371,8 @@ public final class  StringLib {
      * @return boolean valor.
      * */
     public static boolean isNumeric(String cadena){
+    	return cadena.matches("^[0-9]+$");
+    	/*
     	try {
     		//Integer.parseInt(cadena);
     		BigInteger.valueOf(Long.parseLong(cadena));
@@ -381,9 +383,19 @@ public final class  StringLib {
     	} catch (Exception e){
     		return false;
     	}
+    	*/
     }
-    
-    
+
+    /**
+     * Metodo que recibe una cadena y devuelve un valor entero en caso cumpla las condiciones
+     * de ser un texto con caraceteres numericos, en caso contrario devolverá cero
+     * @param sint valor que sera transformado a un entero.
+     * @return
+     */
+    public static int toInt(String sint) {
+    	return StringLib.isNumeric(sint) ? Integer.parseInt(sint) : 0;
+    }
+
     /**
      * Metodo que devuelve el stackTrace de una exception en formato String
      * @param ex Exception del que se extraera la informacion

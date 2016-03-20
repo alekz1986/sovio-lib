@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import pe.gob.mtpe.sovio.bean.simintra1.SITBUsuario;
+import pe.gob.mtpe.sovio.bean.simintra1.enums.UsuarioFlgExt;
 import pe.gob.mtpe.sovio.util.log.InjectLogger;
 
 
@@ -95,7 +96,6 @@ public class Logueo {
 		}
 		return (obj != null) ? (SITBUsuario) obj[0] : null;
 	} 
-	/*-*/
 	
 	
 
