@@ -32,40 +32,36 @@ public class Ingreso extends ProcessResponse {
 	 * @param passUsu Clave del usuario sin encriptar
 	 * @return El usuario.
 	 */
-	//@SovioProcess
 	public SITBUsuario ingresar(String codUsu, String passUs) {
+		log.debug("La clave sera encriptada para su validacion correspondiente");
 		return ingresar(codUsu, passUs, false);
 	}
+
 	
-	
+	/**
+	 * Metodo que obtiene el usuario por codigo de usuario y clave
+	 * @param codUsu Codigo del usuario
+	 * @param passUsu Clave del usuario, puede ser encriptada o sin encriptar
+	 * @param esEncriptado Determina si la clave es encriptada o no. Si no lo 
+	 *  es, se realizará la encriptacion durante el proceso. 
+	 * @return
+	 */
 	public SITBUsuario ingresar(String codUsu, String passUsu, boolean esEncriptado) {
 		SITBUsuario usuario = null;
 		//mensaje
 		try {
 			passUsu = !esEncriptado ? StringLib.encodeLabel(passUsu) : passUsu;
-			
-			System.out.println(passUsu);
+			log.debug("clave encriptada: " + passUsu);
 			usuario = logueo.obtenerUsuarioExterno(codUsu, passUsu);
-			//logueo.obtenerUsuarioAdministrador("AS");
-			
-			if(usuario!=null) {
-				System.out.println("Usuario encontrado");
-				System.out.println(usuario.getCodUsu());
-				
-				PRTBCPersonal personal = usuario.getPersonal();
-				if(personal!=null) {
-					System.out.println(usuario.getPersonal().getDesApePat());
-					System.out.println(usuario.getPersonal().getDesApeMat());
-					System.out.println(usuario.getPersonal().getDesNombres());
-				}
-			} else {
-				System.out.println("No se encontro el usuario");
+			if(usuario != null) {
+				return usuario;
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+		} catch (Exception ex) {
+			super.setEx(ex);
+			log.error(StringLib.getStackTrace(ex));
 		}
-		return usuario;
+		return null;
 	}
 
 

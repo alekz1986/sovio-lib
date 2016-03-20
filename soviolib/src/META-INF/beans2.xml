@@ -21,6 +21,7 @@
 	
 	<context:component-scan base-package="pe.gob.mtpe.sovio.acceso"/>
 	<context:component-scan base-package="pe.gob.mtpe.sovio.util.log"/>
+	<context:component-scan base-package="pe.gob.mtpe.sovio.util.process"/>
 	
 
 	<context:annotation-config />
@@ -61,7 +62,11 @@
 	
 	
 	<bean id="logueo" class="pe.gob.mtpe.sovio.datos.Logueo" />
+	<!--<bean id="processFactory" class="pe.gob.mtpe.sovio.util.process.ProcessFactory" />-->
 
 	
+	<!-- AGREGADOS -->
+	<!-- <bean id="applicationContextProvder" class="com.java2novice.spring.ApplicationContextProvider"/> -->
+                        
 
 </beans>

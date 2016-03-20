@@ -1,5 +1,8 @@
 package pe.gob.mtpe.sovio.util;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 /**
  * Clase utilitaria para trabajar con cadenas de texto.
  * @author Jonatan Pozo
@@ -378,6 +381,18 @@ public final class  StringLib {
     	} catch (Exception e){
     		return false;
     	}
+    }
+    
+    
+    /**
+     * Metodo que devuelve el stackTrace de una exception en formato String
+     * @param ex Exception del que se extraera la informacion
+     */
+    public static String getStackTrace(Exception ex) {
+    	StringWriter sw = new StringWriter();
+    	PrintWriter pw = new PrintWriter(sw);
+    	ex.printStackTrace(pw);
+    	return sw.toString(); 
     }
 	 
 }

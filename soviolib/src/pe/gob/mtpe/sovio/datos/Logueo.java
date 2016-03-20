@@ -19,7 +19,7 @@ public class Logueo {
 	
 	
 	@InjectLogger
-	private Logger logger;
+	private Logger log;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -59,6 +59,7 @@ public class Logueo {
 	/*
 	@Transactional
 	public SITBUsuario obtenerUsuarioExterno(String codUsu, String passUsu) {
+		log.debug("Hibernate 5");
 		Object[] obj = null;
 		try {
 			obj = (Object[])entityManager.createQuery(
@@ -69,7 +70,7 @@ public class Logueo {
 				.setParameter("passUsu", passUsu)
 				.getSingleResult();
 		} catch (NoResultException nrex) {
-			logger.debug("Obtener Usuario Externo no genera resultados para el usuario: "
+			log.debug("Obtener Usuario Externo no genera resultados para el usuario: "
 					+ codUsu);
 		}
 		return (obj != null) ? (SITBUsuario) obj[0] : null;
@@ -77,7 +78,7 @@ public class Logueo {
 	/*-*/
 	
 	
-	@Transactional
+	//*@Transactional
 	public SITBUsuario obtenerUsuarioExterno(String codUsu, String passUsu) {
 		Object[] obj = null;
 		try {
@@ -89,7 +90,7 @@ public class Logueo {
 				.setParameter("passUsu", passUsu)
 				.getSingleResult();
 		} catch (NoResultException nrex) {
-			logger.debug("Obtener Usuario Externo no genera resultados para el usuario: "
+			log.debug("Obtener Usuario Externo no genera resultados para el usuario: "
 					+ codUsu);
 		}
 		return (obj != null) ? (SITBUsuario) obj[0] : null;
