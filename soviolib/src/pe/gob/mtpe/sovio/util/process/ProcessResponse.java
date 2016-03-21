@@ -9,7 +9,7 @@ public class ProcessResponse /* implements InvocationHandler */ {
 	
 	private int estado;
 	private int tipoMensaje;
-	private String mensaje;
+	private String mensajePrincipal;
 	private Exception exception;
 	private Map<String, Object> resultados;
 	
@@ -20,7 +20,7 @@ public class ProcessResponse /* implements InvocationHandler */ {
 	}
 	
 	protected void reiniciar() {
-		mensaje = null;
+		mensajePrincipal = null;
 		tipoMensaje = MessageType.INFORMATION_MESSAGE;
 		estado = ProcessState.PROCESSING;
 	}
@@ -46,15 +46,15 @@ public class ProcessResponse /* implements InvocationHandler */ {
 	public void addResultado(String key, Object value) {
 		resultados.put(key, value);
 	}
-	public String getMensaje() {
-		return mensaje;
+	public String getMensajePrincipal() {
+		return mensajePrincipal;
 	}
+	
 	public void setMensaje(String mensaje) {
 		setMensaje(mensaje, MessageType.INFORMATION_MESSAGE);
 	}
-	
 	public void setMensaje(String mensaje, int tipoMensaje) {
-		this.mensaje = mensaje;
+		this.mensajePrincipal = mensaje;
 		this.tipoMensaje = tipoMensaje;
 	}
 

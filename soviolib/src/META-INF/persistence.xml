@@ -4,13 +4,13 @@
              version="2.0">
 
 
-   <persistence-unit name="org.hibernate.simintra1.jpa"  >
+   <persistence-unit name="org.hibernate.simintra1.jpa" >
       
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <!--<jta-data-source>java:/si.accesos</jta-data-source> -->
     <!--<mapping-file>ormap.xml</mapping-file> -->
     <!--<jar-file>MyApp.jar</jar-file>-->
-      
+
     <class>pe.gob.mtpe.sovio.bean.tramite.PRTBCPersonal</class>
     <class>pe.gob.mtpe.sovio.bean.tramite.PRTBCTipoPers</class>
     <class>pe.gob.mtpe.sovio.bean.simintra1.SITBEscalaRemun</class>
@@ -21,8 +21,10 @@
     <class>pe.gob.mtpe.sovio.bean.simintra1.SITBZonal</class>
     <class>pe.gob.mtpe.sovio.bean.tramite.TDTBCDependencia</class>
     <class>pe.gob.mtpe.sovio.bean.simintra1.pk.SITBZonalPK</class>
-
     <class>pe.gob.mtpe.sovio.bean.simintra1.SITBPersonaExt</class>
+
+    <class>pe.gob.mtpe.sovio.bean.simintra1.SITBPais</class>
+    <class>pe.gob.mtpe.sovio.bean.simintra1.SITBContin</class>
 	
 	    
 	<properties>
@@ -36,8 +38,8 @@
 		
 		<property name="hibernate.connection.url" value="jdbc:oracle:thin:@172.27.1.99:1521:XE"/>
 		<property name="hibernate.connection.driver_class" value="oracle.jdbc.OracleDriver"/>
-		<property name="hibernate.connection.username" value="SIMINTRA1" />
-		<property name="hibernate.connection.password" value="SIMINTRA1"/>
+		<property name="hibernate.connection.username" value="SOVIOFVSYS" />
+		<property name="hibernate.connection.password" value="S0V10FV13SS"/>
 		<property name="hibernate.show_sql" value="true"/>
 		<property name="hibernate.enable_lazy_load_no_trans" value="true" />
 		

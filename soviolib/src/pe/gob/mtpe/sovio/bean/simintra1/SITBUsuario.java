@@ -59,10 +59,7 @@ public class SITBUsuario {
 	@Column(name="V_FLGESTEXT") private String flgEstExt;
 	@Column(name="V_CODVALIDACION") private String codValidacion;
 	@Column(name="V_NOMBREIMAGEN") private String nombreImagen;
-	
-	
-	@Transient private UsuarioFlgExt flgEstExtEnum;
-	
+	@Column(name="V_DESUSU") private String desUsu;
 	
 
 	public String getCodUsu() {
@@ -167,11 +164,11 @@ public class SITBUsuario {
 	public void setPersonal(PRTBCPersonal personal) {
 		this.personal = personal;
 	}
-	public UsuarioFlgExt getFlgEstExtEnum() {
-		return flgEstExtEnum;
+	public String getDesUsu() {
+		return desUsu;
 	}
-	public void setFlgEstExtEnum(UsuarioFlgExt flgEstExtEnum) {
-		this.flgEstExtEnum = flgEstExtEnum;
+	public void setDesUsu(String desUsu) {
+		this.desUsu = desUsu;
 	}
 	
 	

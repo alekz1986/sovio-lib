@@ -19,7 +19,10 @@
 
 	<!--<jee:jndi-lookup id="myEmf" jndi-name="persistence/org.hibernate.simintra1.jpa"/>-->
 	
-	<context:component-scan base-package="pe.gob.mtpe.sovio.acceso"/>
+	<context:component-scan base-package="pe.gob.mtpe.sovio.proceso.acceso"/>
+	<context:component-scan base-package="pe.gob.mtpe.sovio.proceso"/>
+	
+	<context:component-scan base-package="pe.gob.mtpe.sovio.util.process"/>
 	<context:component-scan base-package="pe.gob.mtpe.sovio.util.log"/>
 	
 	
@@ -61,14 +64,15 @@
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 	
 	
-	<bean id="logueo" class="pe.gob.mtpe.sovio.datos.Logueo" />
+	<bean id="logueo" class="pe.gob.mtpe.sovio.datos.Acceso" />
+	<bean id="pais" class="pe.gob.mtpe.sovio.datos.General" />
 	<!--<bean id="processFactory" class="pe.gob.mtpe.sovio.util.process.ProcessFactory" />-->
 
 	
 	<!-- AGREGADOS -->
 	<bean id="contextApplicationContextProvider" class="pe.gob.mtpe.sovio.util.spring.ApplicationContextProvider"/>
     
-    <context:component-scan base-package="pe.gob.mtpe.sovio.util.process"/>
+    
     
 
 </beans>

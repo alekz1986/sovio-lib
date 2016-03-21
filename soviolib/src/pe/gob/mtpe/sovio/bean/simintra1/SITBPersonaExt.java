@@ -4,7 +4,10 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -29,7 +32,12 @@ public class SITBPersonaExt {
 	@Column(name="V_CODNIVEDU") private String codNivEdu;
 	@Column(name="V_CODREG") private String codReg;
 	@Column(name="V_OTRAREG") private String otraReg;
-	@Column(name="V_CODPAIS") private String codPais;
+	
+	
+	@JoinColumn(name="V_CODPAIS") 
+	@ManyToOne(fetch = FetchType.LAZY)
+	private SITBPais pais;
+	
 	@Column(name="V_FLGACT") private String flgAct;
 	@Column(name="V_CODUSUREG") private String codUsuReg;
 	@Column(name="V_HOSTREG") private String hostReg;
@@ -124,12 +132,6 @@ public class SITBPersonaExt {
 	public void setOtraReg(String otraReg) {
 		this.otraReg = otraReg;
 	}
-	public String getCodPais() {
-		return codPais;
-	}
-	public void setCodPais(String codPais) {
-		this.codPais = codPais;
-	}
 	public String getFlgAct() {
 		return flgAct;
 	}
@@ -171,6 +173,12 @@ public class SITBPersonaExt {
 	}
 	public void setFecMod(Date fecMod) {
 		this.fecMod = fecMod;
+	}
+	public SITBPais getPais() {
+		return pais;
+	}
+	public void setPais(SITBPais pais) {
+		this.pais = pais;
 	}
 	
 }
