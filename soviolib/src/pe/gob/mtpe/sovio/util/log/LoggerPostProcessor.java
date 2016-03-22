@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import pe.gob.mtpe.sovio.util.process.ProcessResponse;
 import pe.gob.mtpe.sovio.util.process.SovioProcess;
-import pe.gob.mtpe.sovio.util.spring.AppContext;
+import pe.gob.mtpe.sovio.util.spring.context.AppContext;
 
 
 @Component

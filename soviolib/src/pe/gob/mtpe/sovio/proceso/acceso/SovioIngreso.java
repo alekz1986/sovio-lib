@@ -1,7 +1,10 @@
 package pe.gob.mtpe.sovio.proceso.acceso;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -10,6 +13,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javassist.compiler.ast.StringL;
 import pe.gob.mtpe.sovio.bean.simintra1.SITBPais;
@@ -20,6 +25,7 @@ import pe.gob.mtpe.sovio.bean.tramite.PRTBCPersonal;
 import pe.gob.mtpe.sovio.datos.Acceso;
 import pe.gob.mtpe.sovio.proceso.Commons;
 import pe.gob.mtpe.sovio.util.Constantes;
+import pe.gob.mtpe.sovio.util.SendMail;
 import pe.gob.mtpe.sovio.util.StringLib;
 import pe.gob.mtpe.sovio.util.Validar;
 import pe.gob.mtpe.sovio.util.log.InjectLogger;
@@ -28,12 +34,16 @@ import pe.gob.mtpe.sovio.util.process.ProcessResponse;
 import pe.gob.mtpe.sovio.util.process.SovioProcess;
 import pe.gob.mtpe.sovio.util.process.SovioProcessException;
 
+
 @Component
 public class SovioIngreso extends ProcessResponse {
 
 	
 	@Autowired
 	private Acceso datosAcceso;
+	
+	@Autowired
+	private static SendMail sendMail;
 	
 	@InjectLogger
 	private Logger log;
@@ -124,12 +134,12 @@ public class SovioIngreso extends ProcessResponse {
 	
 
 	@SovioProcess
-	public boolean registrarUsuario(String codUsu, String desUsu, String passUsu, 
-			String codPais, String codTDocIde, String correoe, String ip) {
+	@Transactional(propagation = Propagation.REQUIRED)
+	public boolean registrarUsuario(String codUsu, String desUsu, String codPais, 
+			String codTDocIde, String correoe, String ip) {
 
 		Commons.validaCamposObligatorios(this, codUsu, "Nro de Documento", "codUsu");
 		Commons.validaCamposObligatorios(this, desUsu, "Usuario", "desUsu");
-		Commons.validaCamposObligatorios(this, passUsu, "Contraseña", "passUsu");
 		Commons.validaCamposObligatorios(this, codPais, "Pais", "codPais");
 		Commons.validaCamposObligatorios(this, codTDocIde, "Tipo de Documento", "codTDocIde");
 		Commons.validaCamposObligatorios(this, correoe, "Correo Electronico", "correoe");
@@ -138,25 +148,30 @@ public class SovioIngreso extends ProcessResponse {
 			return false;
 		}
 		
+		log.debug("Validando si el codigo de usuario es numerico");
 		if(!StringLib.isNumeric(codUsu)) {
 			setMensaje("El Nro de Documento debe ser numerico", MessageType.ERROR_MESSAGE);
 			return false;
 		}
+		log.debug("Validando formato del correo electronico");
 		if(!Validar.formatoCorreo(correoe)) {
 			setMensaje("Ingrese un correo electronico correcto", 
 					MessageType.ERROR_MESSAGE);
 			return false;
 		}
+		log.debug("validando si existe el documento ingresado (codigo de usuario)");
 		if(datosAcceso.existeCodUsuario(codUsu)) {
 			setMensaje("El Nro de Documento ya fue registrado, ingrese otro.",
 					MessageType.ERROR_MESSAGE);
 			return false;
 		}
+		log.debug("validando si existe el usuario ingresado");
 		if(datosAcceso.existeDesUsu(desUsu)) {
 			setMensaje("El usuario ya fue registrado, ingrese otro", 
 					MessageType.ERROR_MESSAGE);
 			return false;
 		}
+		log.debug("validando si existe el correo registrado");
 		if(datosAcceso.existeCorreoRegistradoParaExt(correoe)) {
 			setMensaje("El correo ya se encuentra registrado", 
 					MessageType.ERROR_MESSAGE);
@@ -170,6 +185,7 @@ public class SovioIngreso extends ProcessResponse {
 				codValidacion = StringLib.getMD5( StringLib.generatePassword(10) );
 			} while( datosAcceso.existeCodActivacion(codValidacion) );
 		} catch(Exception ex) {
+			log.error(StringLib.getExceptionStackTrace(ex));
 			setMensaje("No se pudo generar su codigo de validación, intente registrarse"
 					+ " nuevamente", MessageType.ERROR_MESSAGE);
 			setException(ex);
@@ -183,6 +199,7 @@ public class SovioIngreso extends ProcessResponse {
 		try {
 			passwordEncoded = StringLib.encodeLabel(password);
 		} catch (Exception ex) {
+			log.error(StringLib.getExceptionStackTrace(ex));
 			setMensaje("Error generando sus accesos, intentelo nuevamente.", 
 					MessageType.ERROR_MESSAGE);
 			setException(ex);
@@ -205,6 +222,7 @@ public class SovioIngreso extends ProcessResponse {
 		if(ip!=null) personaExt.setHostReg(ip);
 		
 		SITBUsuario usuario = new SITBUsuario();
+		usuario.setCodUsu(codUsu);
 		usuario.setCodValidacion(codValidacion);
 		usuario.setCodUsuReg(codUsu);
 		usuario.setFecReg(hoy);
@@ -213,21 +231,62 @@ public class SovioIngreso extends ProcessResponse {
 		usuario.setPersonaExt(personaExt);
 		usuario.setFlgEstExt( String.valueOf(UsuarioFlgExt.ESTADO_POR_VALIDAR.id()) );
 		usuario.setNombreImagen(Constantes.IMAGEN_DEFAULT);
-		
+
 		try {
+			log.debug("Inicia registro de usuario");
 			datosAcceso.nuevoUsuario(usuario);
 		} catch (Exception ex) {
+			log.error(StringLib.getExceptionStackTrace(ex));
 			setMensaje("Ocurrio un error durante el registro de su usuario. "
 					+ "Intentelo nuevamente", MessageType.ERROR_MESSAGE);
 			setException(ex);
 			return false;
 		}
 		
+		try { 
+			enviarCorreoCreacionCuenta(usuario, personaExt.getCorreoe());
+		} catch (Exception ex) {
+			log.error(StringLib.getExceptionStackTrace(ex));
+			setMensaje("No se pudo enviar", MessageType.ERROR_MESSAGE);
+			setException(ex);
+			return false;
+		}
 		
-		
+		log.info("Usuario registrado satisfactoriamente");
 		return true;
 	}
 
+	
+	private void enviarCorreoCreacionCuenta(SITBUsuario usuario, String correo) throws Exception {
+		log.info("enviar Correo");
+		sendMail.setFrom( sendMail.getUsername() );
+		sendMail.setSubject("Te has creado una cuenta en el Portal del "
+				+ "Servicio de Orientación Vocacional e Información "
+				+ "Ocupacional (SOVIO) del Ministerio de Trabajo y Promoción "
+				+ "del Empleo (MTPE)");
+		sendMail.setTextHtml(true);
+		
+		sendMail.setText(Constantes.EMAIL_PAQUETE + 
+				"mailConfirmacionCorreo.html", "utf-8");
+		Map<String, String> valueMap = new HashMap<String, String>();
+		valueMap.put("usuario", usuario.getDesUsu());
+		valueMap.put("clave", usuario.getPassUsu());
+		valueMap.put("ruta", Constantes.RegistroUsuario.RUTA_VALIDA_CORREO + 
+				usuario.getCodValidacion());
+		valueMap.put("rutaFVSOVIO", Constantes.RegistroUsuario.RUTA_FVSOVIO);
+		sendMail.replaceExpressionForValue(valueMap);
+		
+		String[] to = {correo};
+		sendMail.setTo(to);
+		sendMail.sendMail();
+	}
+	
+	
+	@SovioProcess
+	@Transactional
+	public void procesoDePrueba() {
+		System.out.println("proceso de prueba");
+	}
 	
 
 	public void setLogueo(Acceso logueo) {

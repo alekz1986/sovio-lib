@@ -25,7 +25,7 @@ public class General {
 	@PersistenceContext(type=PersistenceContextType.EXTENDED)
 	private EntityManager entityManager;
 
-	@Transactional
+
 	public List<SITBPais> getPaises() {
 		List<SITBPais> paises = new ArrayList<SITBPais>();
 		try {

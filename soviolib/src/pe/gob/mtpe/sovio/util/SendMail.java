@@ -9,18 +9,18 @@ import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.Map;
 
-//import javax.mail.internet.InternetAddress;
-//import javax.mail.internet.MimeMessage;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
-//import org.apache.commons.lang3.ClassUtils;
-//import org.apache.commons.lang3.text.StrSubstitutor;
+import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.text.StrSubstitutor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
 
-public class SendMail /*extends JavaMailSenderImpl */ {
+public class SendMail extends JavaMailSenderImpl {
 	
 	private final Log logger = LogFactory.getLog(this.getClass());
 
@@ -92,7 +92,6 @@ public class SendMail /*extends JavaMailSenderImpl */ {
      * */
 	public void sendMail() throws Exception {
 		logger.info("");
-		/*
     	MimeMessage message = this.createMimeMessage();
 
     	message.setFrom(new InternetAddress(from));
@@ -122,7 +121,6 @@ public class SendMail /*extends JavaMailSenderImpl */ {
     	helper.setTo(to);
     	
     	this.send(message);
-		*/    	
 		logger.info("correo enviado");
 
     }
@@ -168,8 +166,8 @@ public class SendMail /*extends JavaMailSenderImpl */ {
      * @param valueMap parametros, tipo Map<String, String>.
      * */
 	public void replaceExpressionForValue(Map<String, String> valueMap){
-		//StrSubstitutor strSubstitutor = new StrSubstitutor(valueMap);
-		//text = strSubstitutor.replace(text);
+		StrSubstitutor strSubstitutor = new StrSubstitutor(valueMap);
+		text = strSubstitutor.replace(text);
 	}
 	
 }

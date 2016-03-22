@@ -31,7 +31,6 @@ public class Acceso {
 	
 	/* 
 	//Hibernate 5
-	//@Transactional(propagation = Propagation.REQUIRED)
 	public SITBUsuario getUsuarioAdministrador(String codusu) {
 		SITBUsuario usuario = null;
 		List lista = (List) entityManager.createQuery(
@@ -61,7 +60,6 @@ public class Acceso {
 	}
 
 	
-	@Transactional
 	public SITBUsuario getUsuarioExterno(String codUsu, String passUsu) {
 		log.debug("Hibernate 5");
 		Object[] obj = null;
@@ -82,7 +80,6 @@ public class Acceso {
 	/*-*/
 
 
-	//*@Transactional
 	public SITBUsuario getUsuarioExterno(String desUsu, String passUsu) {
 		Object[] obj = null;
 		try {
@@ -118,18 +115,18 @@ public class Acceso {
 	
 	
 	public boolean existeCodUsuario(String codUsu) {
-		int count = (int) entityManager.createQuery(
-				"SELECT count(1) FROM SITB_USUARIO "
-				+ "WHERE codUsu = :codUsu")
+		long count = (long) entityManager.createQuery(
+				"SELECT count(usu.codUsu) FROM SITB_USUARIO usu "
+				+ "WHERE usu.codUsu = :codUsu")
 			.setParameter("codUsu", codUsu)
 			.getSingleResult();
 		return (count > 0);
 	}
 	
 	public boolean existeDesUsu(String desUsu) {
-		int count = (int) entityManager.createQuery(
-				"SELECT count(1) FROM SITB_USUARIO "
-				+ "WHERE desUsu = :desUsu")
+		long count = (long) entityManager.createQuery(
+				"SELECT count(usu.codUsu) FROM SITB_USUARIO usu "
+				+ "WHERE usu.desUsu = :desUsu")
 			.setParameter("desUsu", desUsu)
 			.getSingleResult();
 		return (count > 0);
@@ -137,8 +134,8 @@ public class Acceso {
 
 	
 	public boolean existeCorreoRegistradoParaExt(String correoe) {
-		int count = (int) entityManager.createQuery(
-				"SELECT count(1) FROM SITB_PERSONAEXT pex "
+		long count = (long) entityManager.createQuery(
+				"SELECT count(pex.codPerExt) FROM SITB_PERSONAEXT pex "
 				+ "WHERE pex.correoe=:correoe")
 			.setParameter("correoe", correoe)
 			.getSingleResult();
@@ -147,8 +144,8 @@ public class Acceso {
 	
 	
 	public boolean existeCodActivacion(String codValidacion) {
-		int count = (int) entityManager.createQuery(
-				"SELECT count(1) FROM SITB_USUARIO usu "
+		long count = (long) entityManager.createQuery(
+				"SELECT count(usu.codUsu) FROM SITB_USUARIO usu "
 				+ "WHERE usu.codValidacion=:codValidacion")
 			.setParameter("codValidacion", codValidacion)
 			.getSingleResult();

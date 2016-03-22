@@ -23,10 +23,29 @@ public class Main {
 
 	
 	public static void main(String[] args) {
-		ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/beans.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/resources/spring/beans.xml");
+		
 		//Ingreso ingreso = SovioProcessFactory.get(Ingreso.class);
 		//ingreso.ingresar("40609014", "123456");
 
+		/*
+		SovioIngreso sovioIngreso = SovioProcessFactory.get(SovioIngreso.class);
+		sovioIngreso.registrarUsuario("43872977", "MIUSUARIO", Constantes.Pais.PERU, 
+				Constantes.TipoDocumento.CODIGO_DNI, "alekznder@gmail.com", null);
+		
+		System.out.println(sovioIngreso.getTipoMensaje());
+		System.out.println(sovioIngreso.getMensajePrincipal());
+		*/
+
+		System.out.println("nanos: " + Constantes.nanos);
+		System.out.println("mili: " + Constantes.milisegundos);
+		SovioIngreso sovioIngreso = context.getBean(SovioIngreso.class);
+		sovioIngreso.registrarUsuario("43872977", "MIUSUARIO", Constantes.Pais.PERU, 
+				Constantes.TipoDocumento.CODIGO_DNI, "alekznder@gmail.com", null);
+		
+		
+		
+		/*
 		SovioGeneral sovioGeneral = SovioProcessFactory.get(SovioGeneral.class);
 		List<SITBTDocIde> lista = sovioGeneral.getTipoDocumentosParaRegUsuario( "84" );	
 		
@@ -35,6 +54,7 @@ public class Main {
 			System.out.print(tipoDocIde.getDesAbr());
 			System.out.println(" | " + tipoDocIde.getDesTDocIde());
 		}
+		*/
 		
 		((AbstractApplicationContext) context).close();
 		

@@ -19,22 +19,30 @@
 
 	<!--<jee:jndi-lookup id="myEmf" jndi-name="persistence/org.hibernate.simintra1.jpa"/>-->
 	
+	<context:annotation-config />
+	
+	
 	<context:component-scan base-package="pe.gob.mtpe.sovio.proceso.acceso"/>
 	<context:component-scan base-package="pe.gob.mtpe.sovio.proceso"/>
 	
-	<context:component-scan base-package="pe.gob.mtpe.sovio.util.process"/>
+	<context:component-scan base-package="pe.gob.mtpe.sovio.util.process"/>	
 	<context:component-scan base-package="pe.gob.mtpe.sovio.util.log"/>
+	
+	<context:component-scan base-package="pe.gob.mtpe.sovio.util.spring.context"/>
+	<context:component-scan base-package="pe.gob.mtpe.sovio.util.spring.intercept"/>
 	
 	
 
-	<context:annotation-config />
+	
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+    
 	
 	
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean" >
         <property name="persistenceUnitName" value="org.hibernate.simintra1.jpa"></property>
         <property name="jpaDialect" ref="jpaDialect"></property>
-        
-        
 	    <!--<property name="persistenceXmlLocation" value="classpath*:META-INF/persistence.xml"></property>-->
         <!-- <property name="jpaVendorAdapter" ref="jpaVendorAdapter"></property> -->
         <!--<property name="persistenceProviderClass" value="org.hibernate.ejb.HibernatePersistence"/>-->
@@ -42,11 +50,9 @@
 
 	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"></bean>
 	
-	
-	<!--<context:load-time-weaver/>-->
-	<!--<tx:annotation-driven transaction-manager="transactionManager" />-->
-	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
-	<!--<aop:config proxy-target-class="true"/>-->
+	<!-- <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>-->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<aop:config proxy-target-class="true"/>
 	
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 	    <property name="entityManagerFactory" ref="entityManagerFactory" />
@@ -60,18 +66,15 @@
 	</bean>
 
 	
-	 
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 	
-	
+
 	<bean id="logueo" class="pe.gob.mtpe.sovio.datos.Acceso" />
 	<bean id="pais" class="pe.gob.mtpe.sovio.datos.General" />
-	<!--<bean id="processFactory" class="pe.gob.mtpe.sovio.util.process.ProcessFactory" />-->
 
 	
-	<!-- AGREGADOS -->
-	<bean id="contextApplicationContextProvider" class="pe.gob.mtpe.sovio.util.spring.ApplicationContextProvider"/>
-    
+    <!-- Configuracion de Correo: -->
+	<import resource="/mail-context.xml" />
     
     
 

@@ -1,4 +1,4 @@
-package pe.gob.mtpe.sovio.util.spring;
+package pe.gob.mtpe.sovio.util.spring.context;
 
 import org.springframework.context.ApplicationContext;
 

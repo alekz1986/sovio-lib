@@ -50,8 +50,8 @@ public class SITBUsuario {
 	@Column(name="V_FLGINI") private String flgIni;
 	
 	
-	@JoinColumn(name="V_CODPEREXT")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="V_CODPEREXT", nullable=true)
+	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	private SITBPersonaExt personaExt;
 	
 	

@@ -1,5 +1,6 @@
 package pe.gob.mtpe.sovio.proceso;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -13,6 +14,7 @@ import pe.gob.mtpe.sovio.bean.simintra1.SITBTDocIde;
 import pe.gob.mtpe.sovio.datos.Acceso;
 import pe.gob.mtpe.sovio.datos.General;
 import pe.gob.mtpe.sovio.util.Constantes;
+import pe.gob.mtpe.sovio.util.SendMail;
 import pe.gob.mtpe.sovio.util.log.InjectLogger;
 import pe.gob.mtpe.sovio.util.process.MessageType;
 import pe.gob.mtpe.sovio.util.process.ProcessResponse;
@@ -25,8 +27,6 @@ public class Commons extends ProcessResponse {
 	
 	@Autowired
 	private General datosGeneral;
-	
-
 	
 	@InjectLogger
 	private static Logger log;
@@ -48,11 +48,6 @@ public class Commons extends ProcessResponse {
 		return true;
 	}
 	
-	
-	public static void enviarCorreo() {
-		log.info("enviar Correo");
-		
-	}
 	
 	
 }
