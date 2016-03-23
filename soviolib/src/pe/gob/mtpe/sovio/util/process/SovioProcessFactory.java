@@ -14,6 +14,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import pe.gob.mtpe.sovio.proceso.acceso.SovioIngreso;
+import pe.gob.mtpe.sovio.util.Mensajes;
 import pe.gob.mtpe.sovio.util.StringLib;
 import pe.gob.mtpe.sovio.util.log.InjectLogger;
 import pe.gob.mtpe.sovio.util.spring.context.AppContext;
@@ -27,31 +28,34 @@ public class SovioProcessFactory {
 	
 	public <T extends ProcessResponse> T getProcess(Class clazz) {
 		Long ini = Calendar.getInstance().getTimeInMillis();
-		ProcessResponse obj = (ProcessResponse) AppContext.getApplicationContext().getBean(clazz);
-		//Object obj = AppContext.getApplicationContext().getBean(clazz);
+		ProcessResponse obj = (ProcessResponse) AppContext
+				.getApplicationContext().getBean(clazz);
 		ProxyFactory pf = new ProxyFactory(obj);
 		pf.addAdvice(new MethodInterceptor() {
 			@Override
 			public Object invoke(MethodInvocation invocation) throws Throwable {
-				SovioProcess sp = invocation.getMethod().getAnnotation(SovioProcess.class);
+				SovioProcess sp = invocation.getMethod()
+						.getAnnotation(SovioProcess.class);
 				Object result = null;
 				if(sp!=null) {
-					ProcessResponse processResponse = (ProcessResponse) invocation.getThis();
+					ProcessResponse pr = (ProcessResponse) invocation.getThis();
 					try {
-						processResponse.reiniciar();
-						processResponse.setEstado(ProcessState.PROCESSING);
-						//result = invocation.getMethod().invoke(invocation.getThis(), invocation.getArguments());
+						pr.reiniciar();
+						pr.setEstado(ProcessState.PROCESSING);
+						result = invocation.proceed();
+						//invoke using method reflect
 						invocation.proceed();
-						processResponse.setEstado(ProcessState.OK);
+						pr.setEstado(ProcessState.OK);
 					} catch (Exception ex) {
-						processResponse.setMensaje("Se produjo un error");
-						processResponse.setEstado(ProcessState.ERROR);
-						processResponse.setException(ex);
-						log.error("Se produjo un error");
-						log.error(StringLib.getExceptionStackTrace(ex));
+						pr.setMensaje( Mensajes.get(Mensajes.Err.GRAVE) );
+						pr.setEstado(ProcessState.ERROR);
+						log.error( Mensajes.get(Mensajes.Err.GRAVE) );
+						log.error( StringLib.getExceptionStackTrace(ex) );
 					}
 				} else {
-					result = invocation.getMethod().invoke(invocation.getThis(), invocation.getArguments());;
+					result = invocation.getMethod()
+							.invoke(invocation.getThis(), 
+									invocation.getArguments());;
 				}
 				return result;
 			}
@@ -60,9 +64,7 @@ public class SovioProcessFactory {
 				+ (Calendar.getInstance().getTimeInMillis() - ini) 
 				+ " miliseconds" );
 		
-		Object x = pf.getProxy();
-		return (T) x;
-		//return (T) pf.getProxy();
+		return (T) pf.getProxy();
 	}
 	
 	

@@ -2,10 +2,14 @@ package pe.gob.mtpe.sovio;
 
 import java.util.List;
 
+import javax.persistence.RollbackException;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.transaction.support.TransactionSynchronizationAdapter;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import pe.gob.mtpe.sovio.bean.simintra1.SITBPais;
 import pe.gob.mtpe.sovio.bean.simintra1.SITBTDocIde;
@@ -23,7 +27,7 @@ public class Main {
 
 	
 	public static void main(String[] args) {
-		ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/resources/spring/beans.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/conf/spring/beans.xml");
 		
 		//Ingreso ingreso = SovioProcessFactory.get(Ingreso.class);
 		//ingreso.ingresar("40609014", "123456");
@@ -35,13 +39,24 @@ public class Main {
 		
 		System.out.println(sovioIngreso.getTipoMensaje());
 		System.out.println(sovioIngreso.getMensajePrincipal());
-		*/
+		/*-*/
 
+		
+		
+		//*
 		System.out.println("nanos: " + Constantes.nanos);
 		System.out.println("mili: " + Constantes.milisegundos);
 		SovioIngreso sovioIngreso = context.getBean(SovioIngreso.class);
-		sovioIngreso.registrarUsuario("43872977", "MIUSUARIO", Constantes.Pais.PERU, 
-				Constantes.TipoDocumento.CODIGO_DNI, "alekznder@gmail.com", null);
+		try {
+			sovioIngreso.registrarUsuario("43872977", "MIUSUARIO", Constantes.Pais.PERU, 
+					Constantes.TipoDocumento.CODIGO_DNI, "alekznder@gmail.com", null);
+		} catch(Exception ex) {
+			System.out.println("=========");
+			System.out.println(sovioIngreso.getEstado());
+		}
+		
+		System.out.println("Acabo el proceso");
+		System.out.println(sovioIngreso.getMensajePrincipal());
 		
 		
 		

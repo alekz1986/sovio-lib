@@ -18,6 +18,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
 
+import pe.gob.mtpe.sovio.util.process.MessageType;
+
 public final class  StringLib {
 	
 	public static String NUMEROS = "0123456789";
@@ -371,19 +373,9 @@ public final class  StringLib {
      * @return boolean valor.
      * */
     public static boolean isNumeric(String cadena){
+    	if(cadena==null)
+    		return false;
     	return cadena.matches("^[0-9]+$");
-    	/*
-    	try {
-    		//Integer.parseInt(cadena);
-    		BigInteger.valueOf(Long.parseLong(cadena));
-    		//new BigInteger(cadena);
-    		return true;
-    	} catch (NumberFormatException nfe){
-    		return false;
-    	} catch (Exception e){
-    		return false;
-    	}
-    	*/
     }
 
     /**
@@ -407,5 +399,18 @@ public final class  StringLib {
     	return sw.toString(); 
     }
 	 
+    
+    
+    /**
+     * Metodo que valida si una cadena String es vacia o nula
+     * @param valor La cadena a validar
+     * @return Verdadero si la cadena es vacia o nula, falso en caso contrario.
+     */
+    public static boolean esVacioNulo(String valor) {
+    	if(valor==null || valor.trim().length()==0)
+			return true;
+		return false;
+    }
+    
 }
 

@@ -1,16 +1,14 @@
 package pe.gob.mtpe.sovio.util.process;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
-public class ProcessResponse /* implements InvocationHandler */ {
+public class ProcessResponse {
 
 	
 	private int estado;
 	private int tipoMensaje;
 	private String mensajePrincipal;
-	private Exception exception;
 	private Map<String, Object> resultados;
 	
 	
@@ -19,8 +17,9 @@ public class ProcessResponse /* implements InvocationHandler */ {
 		reiniciar();
 	}
 	
-	protected void reiniciar() {
+	public void reiniciar() {
 		mensajePrincipal = null;
+		resultados = new HashMap<String, Object>();
 		tipoMensaje = MessageType.INFORMATION_MESSAGE;
 		estado = ProcessState.PROCESSING;
 	}
@@ -37,17 +36,14 @@ public class ProcessResponse /* implements InvocationHandler */ {
 	public void setTipoMensaje(int tipoMensaje) {
 		this.tipoMensaje = tipoMensaje;
 	}
-	public Exception getException() {
-		return exception;
-	}
-	public void setException(Exception exception) {
-		this.exception = exception;
-	}
 	public void addResultado(String key, Object value) {
 		resultados.put(key, value);
 	}
 	public String getMensajePrincipal() {
 		return mensajePrincipal;
+	}
+	protected Map<String, Object> getResultados() {
+		return this.resultados;
 	}
 	
 	public void setMensaje(String mensaje) {

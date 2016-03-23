@@ -74,7 +74,7 @@
 
 	
     <!-- Configuracion de Correo: -->
-	<import resource="/mail-context.xml" />
+	<import resource="classpath:META-INF/conf/sovio/mail/mail-context.xml" />
     
     
 
